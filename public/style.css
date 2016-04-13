@@ -1,0 +1,15 @@
+.beer-card li.editing .name-edit {
+  display: block;
+}
+.beer-card li .name-edit {
+  display: none;
+}
+
+.container {
+  margin-bottom: 5px;
+}
+
+.divider {
+  height: 5px;
+  width: 100%;
+}
