@@ -5,7 +5,8 @@ var BeerModel = Backbone.Model.extend({
     abv: 0,
     image_url: '',
     ratings: [],
-    avgRate: 0
+    avgRate: 0,
+    reviews: []
   },
 
   parse: function(response){

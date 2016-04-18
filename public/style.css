@@ -13,3 +13,11 @@
   height: 5px;
   width: 100%;
 }
+
+.reviews-container, .beers-container {
+  display: none;
+}
+
+.show {
+  display: block;
+}

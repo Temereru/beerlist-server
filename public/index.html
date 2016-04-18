@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
   <script type="text/javascript" src="jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="handlebars/dist/handlebars.min.js"></script>
   <script type="text/javascript" src="backbone/node_modules/underscore/underscore-min.js"></script>
@@ -11,26 +12,28 @@
   <title></title>
 </head>
 <body>
-  <div class="container">
-    <form id="beer-form" class="col-md-4">
-      <input class="form-control" id="beer-name" type="text" placeholder="Beer's Name"></input></br>
-      <input class="form-control" id="beer-style" type="text" placeholder="Beer's style"></input></br>
-      <input class="form-control" id="beer-abv" type="number" placeholder="Beer's ABV Value"></input></br>
-      <input class="form-control" id="beer-img" type="text" placeholder="Beer's img URL"></input></br>
-      <button type="button" id="beer-submit" class="btn btn-primary">Submit</button></br>
-    </form>
-  </div>
-  <div class="container">
-    <div class="row">
-      <button type="button" class="btn btn-primary sort">Sort By Ratings</button>
+  <div class="beers-container show">
+    <div class="container">
+      <form id="beer-form" class="col-md-4">
+        <input class="form-control" id="beer-name" type="text" placeholder="Beer's Name"></input></br>
+        <input class="form-control" id="beer-style" type="text" placeholder="Beer's style"></input></br>
+        <input class="form-control" id="beer-abv" type="number" placeholder="Beer's ABV Value"></input></br>
+        <input class="form-control" id="beer-img" type="text" placeholder="Beer's img URL"></input></br>
+        <button type="button" id="beer-submit" class="btn btn-primary">Submit</button></br>
+      </form>
+    </div>
+    <div class="container">
+      <div class="row">
+        <button type="button" class="btn btn-primary sort">Sort By Ratings</button>
+      </div>
+    </div>
+    <div class="divider clearfix"></div>
+    <div class="container">
+      <div class="row" id="beer-container"></div>
     </div>
   </div>
-  <div class="divider clearfix"></div>
-  <div class="container">
-    <div class="row" id="beer-container"></div>
-  </div>
   
-  
+  <div class="reviews-container"></div>
 
   <script id="beer-template" type="text/x-handlebars-template">
   <div>
@@ -52,18 +55,55 @@
                 </select><button class="btn btn-primary rate-submit">rate</button> average rating: <span class="avg-rating">{{avgRate}}</span>
         </li>
         <li>
-          <img src="{{ image_url }}">
+          <a class="view-beer" href="#/beers/{{ id }}"><img src="{{ image_url }}"></a>
         </li>
       </ul>
     </div>
     <button type="button" class="remove-beer btn btn-primary">remove</button>
   </script>
   
+  <script id="beer-detail-template" type="text/x-handlebars-template">
+    <a href="#">back</a>
+    <div class="img-container">
+      <img src="{{ image_url }}">
+    </div>
+    <div class="content-container">
+      <p class="beer-name"> {{ name }} </p>
+      <p>{{style}} - {{abv}}%</p>
+
+      <div class="reviews-list"><h2>Reviews</h2></div>
+
+      <h2>Add a New Review</h2>
+      <div class="form-group">
+        <label>User Name</label>
+        <input type="text" class="form-control" id="review-name-input" placeholder="name">
+      </div>
+      <div class="form-group">
+        <label>Review Notes</label>
+        <input type="text" class="form-control" id="review-text-input" placeholder="Review Text">
+      </div>
+      <button class="btn btn-primary submit-review">submit</button>
+    </div>
+  </script>
+
+  <script id="review-template" type="text/x-handlebars-template">
+    <div id="{{ _id }}">
+      <h3>{{ name }}</h1>
+      <p>{{ text }}</p>
+      <i class="fa fa-times-circle remove" aria-hidden="true"></i>
+    </div>
+  </script>
+
   <script type="text/javascript" src="models/BeerModel.js"></script>
   <script type="text/javascript" src="views/BeerView.js"></script>
   <script type="text/javascript" src="collections/BeerCollection.js"></script>
+  <script type="text/javascript" src="models/ReviewModel.js"></script>
+  <script type="text/javascript" src="views/ReviewView.js"></script>
+  <script type="text/javascript" src="collections/ReviewCollection.js"></script>
+  <script type="text/javascript" src="views/BeerDetailView.js"></script>
   <script type="text/javascript" src="views/AppView.js"></script>
   <script type="text/javascript" src="models/AppModel.js"></script>
+  <script type="text/javascript" src="routers/router.js"></script>
   <script type="text/javascript" src="main.js"></script>
 </body>
 </html>

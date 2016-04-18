@@ -14,11 +14,11 @@ var BeerView = Backbone.View.extend({
     this.listenTo(this.model, 'change:name', this.reName);
     this.listenTo(this.model, 'change:ratings', this.reAvg);
     this.listenTo(this.model, 'change:avgRate', this.renderAvg);
+
   },
 
   render: function(){
     var template = Handlebars.compile(this.template.html());
-
     this.$el.html(template(this.model.toJSON()));
 
     return this;
@@ -66,7 +66,7 @@ var BeerView = Backbone.View.extend({
     this.$el.find('.avg-rating').html(this.model.get('avgRate'));
   },
 
-  update: function(){
+  update: function(model){
     this.model.save();
   }
 });

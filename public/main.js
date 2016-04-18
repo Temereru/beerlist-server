@@ -1,7 +1,12 @@
 var appModel = new AppModel();
 var appView = new AppView({model: appModel});
 
-appModel.get('beerCollection').fetch({reset: true});
+var beerRouter = new BeerRouter();
+appModel.get('beerCollection').fetch({success: function () {
+  var beerRouter = new BeerRouter();
+  Backbone.history.start();
+}}, {reset: true});
+
 
 // appView.model.get('beerCollection').add({
 //   name: 'Midnight',

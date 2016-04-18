@@ -4,14 +4,15 @@ var bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost/beers');
 
-var Beer = require("./BeerModel");
+var Beer = require("./Models/BeerModel");
+var Review = require("./Models/reviewModel");
 
 var app = express();
 
 app.use(bodyParser.json());   // This is the type of body we're interested in
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.listen(8000);
+app.listen(8080);
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname);
@@ -37,10 +38,14 @@ app.post('/beers', function (req, res) {
 });
 
 app.put('/beers/:id',  function(req, res, next) {
-  var id = req.params.id;
-  Beer.findById(id, function (err, found) {
+  Beer.findById(req.params.id, function (err, found) {
+    if (err) { return next(err); }
     found.set(req.body);
-    found.save();
+    found.save(function(err, beer) {
+      if (err) { return next(err); }
+
+      res.json(beer);
+    });
   });
 });
 
@@ -51,4 +56,33 @@ app.delete('/beers/:id',  function(req, res, next) {
   });
 });
 
-app.put('')
+app.post('/beers/:id/reviews', function(req, res, next) {
+  Beer.findById(req.params.id, function(err, found){
+    console.log(req.body);
+    var review = new Review(req.body);
+    found.reviews.push(review);
+    found.save(function(err, beer) {
+      if (err) { return next(err); }
+
+      res.json(beer.reviews);
+    });
+  });
+});
+
+app.get('/beers/:id/reviews', function(req, res, next) {
+  Beer.findById(req.params.id, function(err, found){
+    res.json(found.reviews);
+  });
+});
+
+app.delete('/beers/:id/reviews/:id2', function(req, res, next) {
+  Beer.findById(req.params.id, function(err, found){
+    var index = found.reviews.findIndex(function(review){return review['_id'] == req.params.id2});
+    found.reviews.splice(index,1);
+    found.save(function(err, beer) {
+      if (err) { return next(err); }
+
+      res.json(beer.reviews);
+    });
+  });
+});

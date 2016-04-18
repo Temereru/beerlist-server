@@ -1,5 +1,12 @@
 var AppModel = Backbone.Model.extend({
-  defaults:{
-    beerCollection: new BeerCollection()
+  defaults: function () {
+    return {
+      beerCollection: new BeerCollection(),
+
+      current_beer: null,
+
+      // either true or false
+      show_reviews: false
+    }
   }
 });
